@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% from "components/map_card.html" import map_card %}
+{% block scripts %}<script defer src="{{ asset('/js/panels/localization.js') }}"></script>{% endblock %}
+{% block content %}
+<div class="flex min-h-0 flex-1 gap-5 max-xl:gap-4" data-panel="localization">
+  {{ map_card("Loaded map", "Tianyi’s localized pose on the loaded map", legend=(("dock", "Charging dock"), ("robot", "Tianyi"), ("poi", "POI"))) }}
+  <aside class="flex w-[420px] shrink-0 flex-col gap-5 overflow-y-auto max-xl:w-[360px] max-xl:gap-4">
+    <section class="card gap-2.5 p-[18px]" data-load-card>
+      <div class="flex items-center gap-2.5">
+        <span class="grid size-6 place-items-center rounded-full bg-ink text-xs font-bold text-white">1</span>
+        <h2 class="card-title flex-1">Load a map</h2>
+        <span class="badge badge-neutral" data-load-lock hidden>Locked</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-[15px] font-bold" data-current-map>…</span>
+        <span class="badge badge-ok badge-dot" data-current-map-badge hidden>On robot storage, verified</span>
+      </div>
+      <div class="flex items-end gap-2.5">
+        <select class="input flex-1" data-map-select aria-label="Map from data/maps"></select>
+        <button type="button" class="btn btn-caution" data-load-map disabled>Load</button>
+      </div>
+      <label class="confirm confirm-caution" data-load-confirm-row><input type="checkbox" data-load-confirm> Replace the stored robot map with this file and reload at the charging dock.</label>
+      <p class="flex items-start gap-2 rounded-lg bg-paper px-2.5 py-2 text-xs text-ink-2" data-load-hint>Requires Tianyi docked, charging and idle, with localization stopped.</p>
+    </section>
+    <section class="card flex-1 gap-3 p-[18px]" data-localize-card>
+      <div class="flex items-center gap-2.5">
+        <span class="grid size-6 place-items-center rounded-full bg-ink text-xs font-bold text-white">2</span>
+        <h2 class="card-title flex-1">Localize</h2>
+        <span class="badge badge-neutral" data-quality-badge>…</span>
+      </div>
+      <div class="flex items-center gap-3 rounded-lg border border-line px-3 py-2.5" data-localization-state>
+        <span class="size-3 shrink-0 rounded-full bg-ink-3" data-state-dot></span>
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-bold" data-state-label>Checking…</p>
+          <p class="text-xs text-ink-3" data-state-detail></p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2.5 rounded-lg bg-stop-soft px-3 py-2.5" data-unbound hidden>
+        <p class="flex-1 text-[13px] font-medium leading-snug">The charging dock is not bound, so tours cannot return home.</p>
+        <button type="button" class="btn btn-secondary btn-sm" data-bind-dock>Bind charging dock</button>
+      </div>
+      <div class="segmented" role="tablist">
+        <button type="button" role="tab" aria-selected="true" data-mode="dock">At charging dock</button>
+        <button type="button" role="tab" aria-selected="false" data-mode="arrow">Drag arrow on map</button>
+      </div>
+      <div data-mode-panel="dock" class="flex flex-col gap-3">
+        <p class="text-[13px] leading-snug text-ink-2">Put Tianyi on the charging dock. Its pose resets to the bound dock.</p>
+        <ul class="flex flex-col gap-2 rounded-lg bg-paper p-3 text-[13px]" data-dock-checks></ul>
+        <button type="button" class="btn btn-primary" data-localize-dock disabled>Localize at dock</button>
+      </div>
+      <div data-mode-panel="arrow" hidden class="flex flex-col gap-3">
+        <p class="text-[13px] leading-snug text-ink-2">Drag the arrow to where Tianyi stands and turn its handle to match the heading.</p>
+        <dl class="grid grid-cols-4 gap-3">
+          <div><dt class="kv-label">Arrow x</dt><dd class="kv-value" data-arrow="x">–</dd></div>
+          <div><dt class="kv-label">Arrow y</dt><dd class="kv-value" data-arrow="y">–</dd></div>
+          <div><dt class="kv-label">Heading</dt><dd class="kv-value" data-arrow="yaw">–</dd></div>
+          <div><dt class="kv-label">Search area</dt><dd class="kv-value" data-arrow="area">2 × 2 m</dd></div>
+        </dl>
+        <label class="flex items-center gap-2.5 text-[13px]"><span class="text-ink-2">Search half-size</span>
+          <select class="input w-auto py-1.5" data-search-size><option value="0.5">0.5 m</option><option value="1" selected>1.0 m</option><option value="2">2.0 m</option></select></label>
+        <label class="flex items-center gap-2.5 text-[13px]"><input type="checkbox" class="size-4 rounded border-ink-3 text-caution" data-allow-rotation> Allow Tianyi to rotate in place while searching (the area around it is clear)</label>
+        <div class="flex gap-2.5">
+          <button type="button" class="btn btn-secondary flex-1" data-arrow-reset>Reset arrow</button>
+          <button type="button" class="btn btn-primary flex-1" data-localize-arrow>Localize here</button>
+        </div>
+        <p class="text-xs text-ink-3">Succeeds when quality reaches 50. Tours need 50 or more.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-2.5 border-t border-line-2 pt-3">
+        <p class="flex-1 text-xs text-ink-3">Stop localization to unlock map loading.</p>
+        <button type="button" class="btn btn-danger btn-sm" data-stop-localization>Stop localization</button>
+      </div>
+    </section>
+    <section class="card flex-row gap-2.5 px-[18px] py-3">
+      <button type="button" class="btn btn-secondary btn-sm flex-1" data-sync-map>Sync to robot</button>
+      <button type="button" class="btn btn-secondary btn-sm flex-1" data-snapshot>Download to data/maps</button>
+    </section>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block scripts %}<script defer src="{{ asset('/js/panels/task_design.js') }}"></script>{% endblock %}
+{% block content %}
+<div class="flex min-h-0 flex-1 flex-col gap-5 max-xl:gap-4" data-panel="task-design">
+  <section class="card flex-row items-end gap-2.5 px-4 py-3">
+    <label class="w-80 max-xl:w-60"><span class="field-label">Saved task</span><select class="input" data-task-select></select></label>
+    <button type="button" class="btn btn-secondary" data-task-refresh>Refresh tasks and POIs</button>
+    <button type="button" class="btn btn-secondary" data-task-new>New task</button>
+    <div class="flex-1"></div>
+    <span class="badge badge-caution badge-dot" data-task-dirty hidden>Unsaved changes</span>
+    <button type="button" class="btn btn-danger" data-task-delete disabled>Delete task</button>
+    <button type="button" class="btn btn-primary" data-task-save>Save task</button>
+  </section>
+  <div class="flex min-h-0 flex-1 gap-5 max-xl:gap-4">
+    <section class="card min-h-0 min-w-0 flex-1 gap-2.5">
+      <div><h2 class="card-title">Visit sequence</h2><p class="card-sub">Stops run in this order. Select a stop to edit or reorder it.</p></div>
+      <label><span class="field-label">Task name</span><input class="input" data-task-name placeholder="Example: Office introduction tour"></label>
+      <ol class="flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto" data-stop-list></ol>
+      <div class="flex gap-2.5 pt-3">
+        <button type="button" class="btn btn-secondary btn-sm" data-stop-up disabled>Move up</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-stop-down disabled>Move down</button>
+        <button type="button" class="btn btn-danger btn-sm" data-stop-remove disabled>Remove stop</button>
+      </div>
+    </section>
+    <aside class="card w-[420px] shrink-0 gap-3 overflow-y-auto max-xl:w-[360px]" data-stop-editor>
+      <h2 class="card-title" data-editor-title>New stop</h2>
+      <label><span class="field-label">POI</span><select class="input" data-editor-poi></select></label>
+      <div>
+        <span class="field-label">Speech</span>
+        <div class="segmented" role="tablist">
+          <button type="button" role="tab" data-speech-source="text" aria-selected="true">Generate from text</button>
+          <button type="button" role="tab" data-speech-source="upload" aria-selected="false">Upload WAV</button>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2.5" data-upload-panel hidden>
+        <label class="flex cursor-pointer flex-col items-center gap-1.5 rounded-[10px] border border-dashed border-line bg-paper p-4 text-center" data-dropzone>
+          <span class="text-[13px] font-semibold">Drop a WAV here or choose a file</span>
+          <span class="text-xs text-ink-3">16 kHz · mono · 16-bit PCM (G1 format)</span>
+          <input type="file" accept=".wav,audio/wav" class="sr-only" data-upload-input>
+        </label>
+        <div class="flex items-center gap-2.5 rounded-lg border border-line px-3 py-2.5" data-upload-file hidden>
+          <div class="min-w-0 flex-1"><p class="truncate text-[13px] font-semibold" data-upload-name></p><p class="text-xs text-ink-3" data-upload-meta></p></div>
+          <span class="badge badge-ok badge-dot">Valid</span>
+          <button type="button" class="btn btn-danger btn-sm" data-upload-remove>Remove</button>
+        </div>
+      </div>
+      <label><span class="field-label" data-content-label>Text to speak on arrival</span>
+        <textarea class="input min-h-24" rows="4" data-editor-content placeholder="What should Tianyi say at this POI?"></textarea></label>
+      <div class="flex items-center gap-2.5 rounded-lg bg-paper px-2.5 py-2">
+        <button type="button" class="btn btn-secondary btn-sm" data-speech-robot><svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>Play on Tianyi</button>
+        <span class="badge badge-neutral" data-speech-state>Not prepared</span>
+      </div>
+      <div class="flex flex-col gap-2">
+        <span class="field-label mb-0">Tianyi arm actions during speech</span>
+        <ol class="flex flex-col gap-2" data-action-list></ol>
+        <p class="text-xs text-ink-3" data-stop-timing></p>
+        <div class="flex gap-2">
+          <button type="button" class="btn btn-secondary btn-sm" data-action-up disabled>Up</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-action-down disabled>Down</button>
+          <button type="button" class="btn btn-danger btn-sm" data-action-remove disabled>Remove</button>
+        </div>
+        <div class="flex gap-2"><select class="input flex-1" data-action-select aria-label="Tianyi arm action to append"></select><button type="button" class="btn btn-secondary" data-action-add>Add action</button></div>
+      </div>
+      <div class="flex flex-col gap-2.5 rounded-[10px] border border-line p-3">
+        <label class="confirm confirm-caution"><input type="checkbox" data-arms-confirm> Arm areas clear, emergency stop ready. Base stays still.</label>
+        <button type="button" class="btn btn-primary" data-rehearse>Rehearse this stop on Tianyi</button>
+      </div>
+      <div class="mt-auto flex gap-2.5 pt-1">
+        <button type="button" class="btn btn-secondary flex-1" data-stop-add>Add stop</button>
+        <button type="button" class="btn btn-primary flex-1" data-stop-update disabled>Update selected stop</button>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<aside class="flex w-[248px] shrink-0 flex-col gap-1 border-r border-line bg-card px-3.5 py-5 max-xl:w-24 max-xl:items-center max-xl:px-2">
+  <div class="mb-5 flex items-center gap-2.5 px-1">
+    <div class="grid size-9 place-items-center rounded-lg bg-ink text-[13px] font-bold text-white">TY</div>
+    <div class="leading-tight max-xl:hidden">
+      <p class="text-[15px] font-bold">Tianyi Concierge</p>
+      <p class="text-xs text-ink-3">Operator console</p>
+    </div>
+  </div>
+  <nav class="flex flex-col gap-1 max-xl:w-full" aria-label="Modules">
+    {% for item in pages %}
+    <a href="{{ item.path }}" class="nav-link max-xl:flex-col max-xl:gap-1 max-xl:px-1 max-xl:text-[11px]" {% if item.key == page.key %}aria-current="page"{% endif %}>
+      <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ item.icon | safe }}</svg>
+      <span class="max-xl:hidden">{{ item.title }}</span>
+      <span class="hidden max-xl:inline">{{ item.short }}</span>
+    </a>
+    {% endfor %}
+  </nav>
+</aside>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }} · Tianyi Concierge</title>
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <script defer src="{{ asset('/js/api.js') }}"></script>
+    <script defer src="{{ asset('/js/websocket.js') }}"></script>
+    <script defer src="{{ asset('/js/map_view.js') }}"></script>
+    <script defer src="{{ asset('/js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+  </head>
+  <body class="h-screen overflow-hidden bg-paper font-sans text-ink antialiased" data-page="{{ page.key }}">
+    <div class="flex h-full">
+      {% include "layout/sidebar.html" %}
+      <div class="flex min-w-0 flex-1 flex-col">
+        {% include "layout/statusbar.html" %}
+        <main class="flex min-h-0 flex-1 flex-col gap-5 p-6 max-xl:gap-4 max-xl:p-[18px]">
+          {% block content %}{% endblock %}
+        </main>
+      </div>
+    </div>
+    <div id="toasts" class="pointer-events-none fixed bottom-6 left-1/2 z-50 flex w-[28rem] max-w-[90vw] -translate-x-1/2 flex-col gap-2" aria-live="polite"></div>
+    <script src="/static/vendor/preline/preline.js"></script>
+  </body>
+</html>

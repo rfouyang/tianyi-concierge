@@ -1,0 +1,33 @@
+{# Every page with a map uses this card on the left; the panel sits on the right. #}
+{% macro map_card(title, subtitle="", legend=(), badge_id="") %}
+<section class="card min-h-0 min-w-0 flex-1 p-4" aria-label="{{ title }}">
+  <div class="flex items-start gap-3">
+    <div class="min-w-0 flex-1">
+      <h2 class="card-title">{{ title }}</h2>
+      {% if subtitle %}<p class="card-sub" data-map-subtitle>{{ subtitle }}</p>{% endif %}
+    </div>
+    {% if badge_id %}<span id="{{ badge_id }}" class="badge badge-signal badge-dot" hidden></span>{% endif %}
+    {% if legend %}
+    <div class="flex items-center gap-3.5 text-xs text-ink-2">
+      {% for kind, label in legend %}
+      <span class="flex items-center gap-1.5">
+        {% if kind == "start" %}<span class="size-2.5 rounded-full bg-start"></span>
+        {% elif kind == "dock" %}<span class="size-2.5 rounded-sm bg-ok"></span>
+        {% elif kind == "robot" %}<span class="size-2.5 rounded-full bg-signal"></span>
+        {% elif kind == "poi" %}<span class="size-2.5 rounded-full bg-poi"></span>{% endif %}
+        {{ label }}
+      </span>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="relative min-h-0 flex-1 overflow-hidden rounded-[10px] bg-map-bg" data-map-view>
+    <div class="map-stage" data-map-stage>
+      <img alt="Robot map" data-map-image>
+      <svg data-map-overlay></svg>
+    </div>
+    <p class="absolute inset-0 grid place-items-center text-sm font-semibold text-ink-2" data-map-empty>Loading the map…</p>
+  </div>
+  {{ caller() if caller else "" }}
+</section>
+{% endmacro %}

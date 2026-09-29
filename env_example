@@ -1,0 +1,18 @@
+# BytePlus TTS API key
+BYTEPLUS_API_KEY=your_byteplus_api_key
+
+# Slamware REST API. Change this if the robot is not at the default address.
+SLAM_BASE_URL=http://192.168.11.1:1448
+
+# Operator console (LAN only).
+CONCIERGE_HOST=0.0.0.0
+CONCIERGE_PORT=8085
+
+# Public MRT intervention API, exposed through ngrok. Use a long random key.
+MRT_API_KEY=replace_with_a_private_mrt_api_key
+MRT_SERVICE_HOST=0.0.0.0
+MRT_SERVICE_PORT=8088
+NGROK_API_KEY=replace_with_your_ngrok_authtoken
+
+# Log level: INFO by default; DEBUG also shows every robot status poll.
+LOG_LEVEL=INFO

@@ -1,0 +1,43 @@
+[project]
+name = "tianyi-concierge"
+version = "0.1.0"
+description = "Tianyi concierge console: map building, POIs, guide tasks, execution, and MRT interventions."
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    "fastapi>=0.116,<1",
+    "jinja2>=3.1,<4",
+    "loguru>=0.7.3",
+    "miniaudio>=1.61",
+    "ngrok>=1.4.0",
+    "numpy>=1.26,<3",
+    "pydantic>=2.8,<3",
+    "python-dotenv>=1.2.3",
+    "requests>=2.32",
+    "sounddevice>=0.5.3",
+    "uvicorn[standard]>=0.35,<1",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28,<1",
+    "ruff>=0.11",
+]
+
+[project.scripts]
+tianyi-concierge = "app.concierge_main:main"
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*", "component*", "config*", "util*"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+extend-exclude = ["AGENTS.md"]
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]

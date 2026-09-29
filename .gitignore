@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+.ruff_cache/
+.pytest_cache/
+node_modules/
+output/
+app/ui_concierge/static/css/app.css
+data/maps/map_registry.json

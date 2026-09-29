@@ -1,0 +1,80 @@
+@import "tailwindcss";
+@import "preline/variants.css";
+@source "../../templates/**/*.html";
+@source "../js/**/*.js";
+@source "../../../../node_modules/preline/dist/*.js";
+
+@font-face { font-family: "IBM Plex Sans"; font-weight: 400; font-display: swap; src: url("/static/vendor/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 500; font-display: swap; src: url("/static/vendor/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 600; font-display: swap; src: url("/static/vendor/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 700; font-display: swap; src: url("/static/vendor/fonts/ibm-plex-sans-latin-700-normal.woff2") format("woff2"); }
+
+/* Tokens from the Penpot "Foundations" page. */
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #1c2430;
+  --color-ink-2: #4a5563;
+  --color-ink-3: #7b8794;
+  --color-paper: #f4f6f7;
+  --color-card: #ffffff;
+  --color-line: #dce2e6;
+  --color-line-2: #ebeff1;
+  --color-signal: #0f766e;
+  --color-signal-soft: #e3f2ef;
+  --color-signal-ink: #0b5a54;
+  --color-caution: #b45309;
+  --color-caution-soft: #fdf1e2;
+  --color-stop: #c62828;
+  --color-stop-soft: #fbe9e9;
+  --color-ok: #2f7d32;
+  --color-ok-soft: #e7f3e8;
+  --color-poi: #6d4aa8;
+  --color-start: #2563eb;
+  --color-map-bg: #e9edef;
+}
+
+@layer base {
+  html { font-feature-settings: "tnum" 1; }
+  button, select, input[type="checkbox"] { touch-action: manipulation; }
+  button:disabled { cursor: not-allowed; }
+}
+
+@layer components {
+  .card { @apply flex flex-col gap-3.5 rounded-xl border border-line bg-card p-5; }
+  .card-title { @apply text-[15px] font-semibold text-ink; }
+  .card-sub { @apply text-[13px] leading-snug text-ink-3; }
+  .field-label { @apply mb-1.5 block text-[13px] font-semibold text-ink-2; }
+  .field-hint { @apply mt-1.5 text-xs text-ink-3; }
+  .input { @apply block w-full rounded-lg border border-line bg-card px-3 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-signal focus:outline-none focus:ring-2 focus:ring-signal/25 disabled:bg-paper; }
+  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg px-3.5 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-signal/40 disabled:bg-line-2 disabled:text-ink-3 disabled:border-transparent; }
+  .btn-sm { @apply px-2.5 py-1.5 text-[13px]; }
+  .btn-lg { @apply px-5 py-3 text-[15px]; }
+  .btn-primary { @apply bg-signal text-white hover:bg-signal-ink; }
+  .btn-secondary { @apply border border-line bg-card text-ink hover:bg-paper; }
+  .btn-ghost { @apply text-ink-2 hover:bg-paper; }
+  .btn-danger { @apply border border-[#e9b7b7] bg-card text-stop hover:bg-stop-soft; }
+  .btn-stop { @apply bg-stop text-white hover:bg-[#a51f1f]; }
+  .btn-caution { @apply bg-caution text-white hover:bg-[#92430a]; }
+  .badge { @apply inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-semibold; }
+  .badge-dot::before { content: ""; @apply size-1.5 rounded-full bg-current; }
+  .badge-neutral { @apply bg-line-2 text-ink-2; }
+  .badge-signal { @apply bg-signal-soft text-signal-ink; }
+  .badge-caution { @apply bg-caution-soft text-caution; }
+  .badge-stop { @apply bg-stop-soft text-stop; }
+  .badge-ok { @apply bg-ok-soft text-ok; }
+  .confirm { @apply flex cursor-pointer items-start gap-3 rounded-lg p-3.5 text-[13px] font-medium leading-snug text-ink; }
+  .confirm-caution { @apply bg-caution-soft; }
+  .confirm-stop { @apply bg-stop-soft; }
+  .confirm input { @apply mt-0.5 size-5 shrink-0 rounded border-ink-3 text-caution focus:ring-caution/40; }
+  .confirm-stop input { @apply text-stop focus:ring-stop/40; }
+  .kv-label { @apply text-[11px] text-ink-3; }
+  .kv-value { @apply text-[13px] font-semibold text-ink; }
+  .nav-link { @apply flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-2 hover:bg-paper; }
+  .nav-link[aria-current="page"] { @apply bg-signal-soft font-semibold text-signal-ink; }
+  .segmented { @apply flex gap-1 rounded-[10px] bg-line-2 p-1; }
+  .segmented button { @apply flex-1 rounded-[7px] px-3.5 py-1.5 text-[13px] font-medium text-ink-2; }
+  .segmented button[aria-selected="true"] { @apply bg-card font-semibold text-ink shadow-sm; }
+  .row-item { @apply flex items-center gap-2 rounded-md px-2 py-2.5; }
+  .map-stage { @apply relative mx-auto max-h-full max-w-full; }
+  .map-stage > img, .map-stage > svg { @apply absolute inset-0 size-full; image-rendering: pixelated; }
+}

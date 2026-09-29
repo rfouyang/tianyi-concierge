@@ -1,0 +1,26 @@
+<header class="flex h-16 shrink-0 items-center gap-5 border-b border-line bg-card pl-6 pr-5 max-xl:gap-4">
+  <h1 class="text-lg font-bold">{{ page.title }}</h1>
+  <div class="flex-1"></div>
+  {% set stats = [
+    ("robot", "Robot", "wifi", ""),
+    ("battery", "Battery", "battery", ""),
+    ("dock", "Dock", "plug", "max-xl:hidden"),
+    ("localization", "Localization", "target", ""),
+    ("map", "Map", "layers", "max-xl:hidden"),
+    ("arms", "Arms", "arm", ""),
+  ] %}
+  {% for key, label, icon, cls in stats %}
+  <div class="flex items-center gap-2 {{ cls }}">
+    <svg class="size-[18px] text-ink-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ icons[icon] | safe }}</svg>
+    <div class="leading-tight">
+      <p class="text-[11px] text-ink-3">{{ label }}</p>
+      <p class="text-[13px] font-semibold" data-stat="{{ key }}">…</p>
+    </div>
+  </div>
+  {% endfor %}
+  <span class="h-8 w-px bg-line"></span>
+  <button type="button" class="btn btn-stop" data-stop-robot>
+    <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg>
+    Stop robot
+  </button>
+</header>

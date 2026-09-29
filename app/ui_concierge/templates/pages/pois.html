@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "components/map_card.html" import map_card %}
+{% block scripts %}<script defer src="{{ asset('/js/panels/pois.js') }}"></script>{% endblock %}
+{% block content %}
+<div class="flex min-h-0 flex-1 gap-5 max-xl:gap-4" data-panel="pois">
+  {{ map_card("Live map and POIs", "Tianyi’s pose updates every second", legend=(("dock", "Charging dock"), ("robot", "Tianyi"), ("poi", "POI"))) }}
+  <aside class="flex w-[420px] shrink-0 flex-col gap-5 overflow-y-auto max-xl:w-[360px] max-xl:gap-4">
+    <form class="card gap-3" data-record-form>
+      <div><h2 class="card-title">Record a POI</h2><p class="card-sub">Drive Tianyi with the remote control, then record its current localized pose.</p></div>
+      <p class="flex items-center gap-2 rounded-lg bg-stop-soft px-3 py-2.5 text-[13px] font-medium leading-snug" data-localization-hint hidden>
+        <span class="flex-1" data-localization-reason>Not localized</span>
+        <a class="btn btn-secondary btn-sm" href="/localization">Localize</a></p>
+      <div class="flex items-end gap-2.5">
+        <label class="flex-1"><span class="field-label">New POI name</span><input class="input" name="name" placeholder="Example: Reception desk" required maxlength="64"></label>
+        <button type="submit" class="btn btn-primary">Record POI</button>
+      </div>
+      <dl class="flex gap-6">
+        <div><dt class="kv-label">Map</dt><dd class="kv-value" data-kv="map">…</dd></div>
+        <div><dt class="kv-label">Localization</dt><dd class="kv-value" data-kv="quality">…</dd></div>
+        <div><dt class="kv-label">Recorded POIs</dt><dd class="kv-value" data-kv="count">…</dd></div>
+      </dl>
+    </form>
+    <section class="card min-h-64 flex-1 gap-0">
+      <div class="flex items-center gap-3">
+        <h2 class="card-title flex-1">Recorded POIs</h2>
+        <input class="input w-36 py-1.5" type="search" placeholder="Search" data-poi-search aria-label="Search POIs">
+      </div>
+      <div class="mt-3 flex gap-2 px-2 pb-2 text-xs font-semibold text-ink-3"><span class="w-[150px]">Name</span><span class="w-[52px]">Type</span><span class="w-11">X</span><span class="w-11">Y</span><span class="w-10">Yaw</span></div>
+      <div class="flex min-h-0 flex-1 flex-col overflow-y-auto" data-poi-rows role="listbox" aria-label="POIs"></div>
+      <div class="mt-auto flex items-center gap-2.5 pt-3.5">
+        <p class="flex-1 text-[13px] font-semibold" data-poi-selected>Select a POI to delete it.</p>
+        <button type="button" class="btn btn-danger btn-sm" data-poi-delete disabled>Delete selected POI</button>
+      </div>
+    </section>
+    <section class="card gap-2.5">
+      <h2 class="card-title">Poses</h2>
+      <dl class="flex gap-6">
+        <div><dt class="kv-label">Current robot pose</dt><dd class="kv-value" data-kv="pose">…</dd></div>
+        <div><dt class="kv-label">Starting / charging pose</dt><dd class="kv-value" data-kv="home">…</dd></div>
+      </dl>
+    </section>
+  </aside>
+</div>
+{% endblock %}

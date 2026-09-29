@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MRT tourist intervention · Tianyi</title>
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <script defer src="{{ asset('/js/api.js') }}"></script>
+    <script defer src="{{ asset('/js/panels/mrt.js') }}"></script>
+  </head>
+  <body class="flex h-screen flex-col overflow-hidden bg-paper font-sans text-ink antialiased" data-page="mrt">
+    <header class="flex h-16 shrink-0 items-center gap-4 border-b border-line bg-card px-6">
+      <div class="grid size-9 place-items-center rounded-lg bg-ink text-[13px] font-bold text-white">TY</div>
+      <div class="leading-tight">
+        <h1 class="text-[17px] font-bold">MRT tourist intervention</h1>
+        <p class="text-xs text-ink-3">One gesture and announcement to remind a tourist to check their ticket</p>
+      </div>
+      <div class="flex-1"></div>
+      <p class="flex items-center gap-2 text-[13px] font-semibold" data-mrt-health><span class="size-2.5 rounded-full bg-ink-3" data-mrt-health-dot></span><span data-mrt-health-text>Checking the MRT service…</span></p>
+      <button type="button" class="btn btn-secondary btn-sm" data-mrt-refresh>Refresh health</button>
+    </header>
+    <main class="flex min-h-0 flex-1 gap-5 p-6">
+      <div class="flex min-w-0 flex-1 flex-col gap-5">
+        <label class="confirm confirm-caution"><input type="checkbox" data-mrt-confirm> Confirm both arm areas are clear and the emergency stop is ready.</label>
+        <div class="grid grid-cols-2 gap-5" data-mrt-actions>
+          {% for action in mrt_actions %}
+          <article class="card gap-3 p-[18px]" data-mrt-card="{{ action.action_id }}">
+            <div class="flex items-center gap-2.5">
+              <span class="grid size-[30px] place-items-center rounded-lg bg-paper text-sm font-bold">{{ loop.index }}</span>
+              <div><h2 class="card-title">{{ action.label }}</h2><p class="text-xs text-ink-3">{{ action.action_id }} · API action={{ loop.index }}</p></div>
+            </div>
+            <p class="text-[13px] leading-relaxed text-ink-2">{{ action.message }}</p>
+            <button type="button" class="btn btn-secondary" data-mrt-run="{{ action.action_id }}" disabled>Run {{ action.label }}</button>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+      <aside class="flex w-[420px] shrink-0 flex-col gap-5">
+        <section class="card flex-1 gap-3">
+          <div class="flex items-start gap-2.5">
+            <div class="flex-1"><h2 class="card-title">Latest intervention</h2><p class="card-sub" data-mrt-op-sub>None yet.</p></div>
+            <span class="badge badge-neutral" data-mrt-op-status hidden></span>
+          </div>
+          <p class="text-[13px] leading-snug" data-mrt-op-message></p>
+          <div class="flex-1"></div>
+          <button type="button" class="btn btn-danger" data-mrt-cancel disabled>Cancel active intervention</button>
+        </section>
+        <section class="card gap-1.5">
+          <h2 class="card-title">Public API</h2>
+          <p class="card-sub">GET /api/mrt/v1/interventions?action=1..4 with a Bearer MRT_API_KEY on port {{ mrt_port }}. API requests start without this page’s checkbox.</p>
+        </section>
+      </aside>
+    </main>
+    <div id="toasts" class="pointer-events-none fixed bottom-6 left-1/2 z-50 flex w-[28rem] max-w-[90vw] -translate-x-1/2 flex-col gap-2" aria-live="polite"></div>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "tianyi-concierge-ui",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i app/ui_concierge/static/css/input.css -o app/ui_concierge/static/css/app.css --minify",
+    "watch:css": "tailwindcss -i app/ui_concierge/static/css/input.css -o app/ui_concierge/static/css/app.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
+    "preline": "^3",
+    "tailwindcss": "4.3.3",
+    "@fontsource/ibm-plex-sans": "^5"
+  }
+}
